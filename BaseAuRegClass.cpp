@@ -25,14 +25,14 @@ bool AutoRegister::ReadClass(bool isClass){
 		HeaderFileData.push_back(HeaderFile.get());
 	}
 
-	boost::regex RegularExp(R"((\w+)(?=[{]))");
+	boost::regex RegularExp(R"(([\w\n]+)(?=[{]))");
 	boost::smatch Results;
 	boost::regex_search(HeaderFileData, Results, RegularExp);
 	RegData.classname = Results[1];
 	std::cout << RegData.classname << std::endl;
 	
 
-	RegularExp.assign(R"(([\w\s\(),\n]+)(?=[;]))");
+	RegularExp.assign(R"(([\w\s\*\(),\n]+)(?=[)]))");
 	std::vector<std::string> functionStrs=Regex_Search_Iterate(HeaderFileData, RegularExp);
 
 	for (unsigned i = 0; i < functionStrs.size(); i++) {
@@ -41,17 +41,17 @@ bool AutoRegister::ReadClass(bool isClass){
 		boost::regex_search(functionStrs[i], Results, RegularExp);
 		TempFunction.functioname = Results[0];
 		
-		RegularExp.assign(R"(([\w\s]+)(?=[(]))");
+		RegularExp.assign(R"(([\w\s\*]+)(?=[(]))");
 		boost::regex_search(functionStrs[i], Results, RegularExp);
 		std::string FunctionTillBrackets = Results[0].str();
 		FunctionTillBrackets.resize(FunctionTillBrackets.size()-TempFunction.functioname.size());
 		TempFunction.returntype = FunctionTillBrackets;
 
-		RegularExp.assign(R"((\w+)(?=[,)]))");
+		RegularExp.assign(R"(([\w\*]+)(?=[,)]))");
 		TempFunction.Argumentypes = Regex_Search_Iterate(functionStrs[i], RegularExp);
 
 		if (isClass) {
-			RegularExp.assign(R"((\w+)(?=[,)]))");
+			RegularExp.assign(R"(([\w\*]+)(?=[,)]))");
 			TempFunction.Arguments = Regex_Search_Iterate(functionStrs[i], RegularExp);
 		}
 		
