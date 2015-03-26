@@ -2,24 +2,40 @@
 #include<vector>
 #include<string>
 #include<fstream>
+#include<boost\regex.hpp>
+#include<iostream>
 
-using namespace std;
+/*
+	Please Credit me if you are using my code 
+	Im working under the GPL3 Licesnse
+	seacrch it up on google when you have the time 
+	if you need this in capital letters for it to be more 'licencey'
+	Here you go:
+		PLEASE CERDIT ME IF YOU ARE USING MY CODE
+		IM WORKING UNDER THE GPL3 LICENCSE
+		SEARCH IT UP ON GOOGLE WHEN YOU HAVE THE TIME
+	All right reseved, Ethan Riley.
+	:)
+*/
+
+
 class AutoRegister {
 public:
-	//DO NOT SET The headerfile as the outputfile otherwise grief is innament(it will delete all your work)
-	AutoRegister(bool IsNamespace,string HeaderFilename, string OutputFilename){
-		HeaderFile.open(HeaderFilename,ios::in);
-		OutputFile.open(OutputFilename,ios::out|ios::trunc);
-		ReadClass(IsNamespace);
-		if(!IsNamespace){
-			CreateClassSelfFunctions();
-			HeaderFile.close();
-			HeaderFile.open(RegData.classname+"_Namespace.h", ios::in);
-			ReadClass(true);
-		}
+	//Do not set yhe headerfile as the outputfile otherwise it will delete your work! don't do newlines before () in headerfile
+	AutoRegister(std::string HeaderFilename, std::string OutputFilename){
+		HeaderFile.open(HeaderFilename,std::ios::in);
+		OutputFile.open(OutputFilename,std::ios::out|std::ios::trunc);
+		ReadClass(false);
 		CreateFunctionCalls();
 	}
-
+	AutoRegister(std::string HeaderFilename, std::string OutputFilename,std::string NewNamspaceFilename) {
+		HeaderFile.open(HeaderFilename, std::ios::in);
+		OutputFile.open(OutputFilename, std::ios::out | std::ios::trunc);
+		ReadClass(true);
+		CreateFunctionCalls();
+		CreateClassSelfFunctions(NewNamspaceFilename);
+	}
+	bool CreateClassSelfFunctions(std::string newNamespaceFilename);
 	~AutoRegister() {
 		HeaderFile.close();
 		OutputFile.close();
@@ -27,31 +43,22 @@ public:
 private:
 	struct Function {
 	public:
-		vector<string> Argumentypes;
-		string returntype;
-		string functioname;
-		vector<string> Arguments;
+		std::vector<std::string> Argumentypes;
+		std::string returntype;
+		std::string functioname;
+		std::vector<std::string> Arguments;
 	};
 	struct RegisterDataHold {
 		public:
-			vector<Function> Functions;
-			string classname;
+			std::vector<Function> Functions;
+			std::string classname;
 	};
-	bool WriteArgs(int i){
-		if (RegData.Functions[i].Arguments.size() != 0) {
-			for (unsigned b = 0; b <= RegData.Functions[i].Arguments.size(); b++) {
-				OutputFile << ",  " << RegData.Functions[i].Arguments[i];
-			}
-		}
-		return true;
-	}
-
 	RegisterDataHold RegData;
-	bool ReadClass(bool Isnamespace);
-	bool CreateClassSelfFunctions();
+	bool WriteArgs(int i);
+	bool ReadClass(bool isClass);
 	bool CreateFunctionCalls();
-	fstream OutputFile;
-	fstream HeaderFile;
-	fstream CppFile;
-	string TmpData;
+	std::fstream OutputFile;
+	std::fstream HeaderFile;
+	std::fstream CppFile;
+	std::string TmpData;
 };
