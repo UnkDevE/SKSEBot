@@ -6,9 +6,9 @@
 #include<iostream>
 
 /*
-	Please Credit me if you are using my code 
+	Please credit me if you are using my code 
 	Im working under the GPL3 Licesnse
-	seacrch it up on google when you have the time 
+	search it up on google when you have the time 
 	if you need this in capital letters for it to be more 'licencey'
 	Here you go:
 		PLEASE CERDIT ME IF YOU ARE USING MY CODE
@@ -21,29 +21,33 @@
 
 class AutoRegister {
 public:
-	//Do not set yhe headerfile as the outputfile otherwise it will delete your work! don't do newlines before () in headerfile
+	//Truncates outputfile be careful
 	AutoRegister(std::string HeaderFilename, std::string OutputFilename){
 		HeaderFile.open(HeaderFilename,std::ios::in);
 		OutputFile.open(OutputFilename,std::ios::out|std::ios::trunc);
-		ReadClass(false);
-		CreateFunctionCalls();
+		ReadClass();
 	}
-	AutoRegister(std::string HeaderFilename, std::string OutputFilename,std::string NewNamspaceFilename) {
-		HeaderFile.open(HeaderFilename, std::ios::in);
-		OutputFile.open(OutputFilename, std::ios::out | std::ios::trunc);
-		ReadClass(true);
-		CreateFunctionCalls();
-		CreateClassSelfFunctions(NewNamspaceFilename);
-	}
-	bool CreateClassSelfFunctions(std::string newNamespaceFilename);
+
+	//Creates the functions
+	bool CreateFunctionCalls();
+	
+	//creates function flags default nowait(kFunctionFlag_NoWait), does not need VMClassRegistry:: in functionflag
+	bool CreateSetFunctionFlags(std::string functionflag="kFunctionFlag_NoWait");
+
+	//Used if you are using classes not namespaces 
+	bool CreateClassSelfunctions(std::string newNamespaceFilename);
+
 	~AutoRegister() {
+		OutputFile << "\n\treturn true; \n}";
 		HeaderFile.close();
 		OutputFile.close();
 	}
+
 private:
 	struct Function {
 	public:
 		std::vector<std::string> Argumentypes;
+		bool staticFunction;
 		std::string returntype;
 		std::string functioname;
 		std::vector<std::string> Arguments;
@@ -54,9 +58,8 @@ private:
 			std::string classname;
 	};
 	RegisterDataHold RegData;
-	bool WriteArgs(int i);
-	bool ReadClass(bool isClass);
-	bool CreateFunctionCalls();
+	bool ReadClass();
+
 	std::fstream OutputFile;
 	std::fstream HeaderFile;
 	std::fstream CppFile;

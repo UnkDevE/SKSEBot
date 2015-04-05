@@ -13,11 +13,24 @@ int main() {
 	std::string b;
 	std::cin >> b;
 
-	if (YorN == 'Y')AutoRegister a(f, b);
-	else{
+	AutoRegister a(f, b);
+	a.CreateFunctionCalls();
+
+	if(YorN != 'Y'){
 		std::cout << "Namespace output filename" << std::endl;
 		std::string NoF;
 		std::cin >> NoF;
-		AutoRegister a(f, b, NoF);
+		a.CreateClassSelfunctions(NoF);
+	}
+
+	std::cout << "Do you want to generate SetFunctionFlags Functions ? Y/N" << std::endl;
+	std::cin >> YorN;
+
+	if (YorN == 'Y') {
+		std::cout << "function flag (please leave out VMRegistry::) X for kFunctionFlag_NoWait" << std::endl;
+		std::string FuncFlag;
+		std::cin >> FuncFlag;
+		if (FuncFlag == "X")a.CreateSetFunctionFlags();
+		else a.CreateSetFunctionFlags(FuncFlag);
 	}
 }
