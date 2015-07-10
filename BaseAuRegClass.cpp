@@ -40,7 +40,9 @@ std::vector<std::string> Regex_Search_Iterate(std::string input, boost::regex Re
 
 
 
-bool AutoRegister::ReadClass(){
+bool AutoRegister::ReadClass(std::string HeaderFilename){
+	HeaderFile.open(HeaderFilename,std::ios::in);
+	
 	std::string HeaderFileData;
 	while (!HeaderFile.eof()) {
 		HeaderFileData.push_back(HeaderFile.get());
@@ -86,7 +88,8 @@ bool AutoRegister::ReadClass(){
 		
 		RegData.Functions.push_back(TempFunction);
 	}
-
+	
+	HeaderFile.close();
 	return true;
 }
 
@@ -117,10 +120,13 @@ bool AutoRegister::CreateClassSelfunctions(std::string newNamespaceFilename) {
 		N_OutputFile << ");\n\t}";
 	}
 	N_OutputFile << "\n}";
+	N_OutputFile.close();
 	return true;
 }
 
-bool AutoRegister::CreateFunctionCalls() {
+bool AutoRegister::CreateFunctionCalls(std::string HeaderFilename) {
+	ReadClass(HeaderFilename);
+	
 	OutputFile << R"(#include <PapyrusNativeFunctions.h>)";
 	OutputFile << "\n\nbool RegisterFuncs(VMClassRegistry* registry) {\n";
 	
