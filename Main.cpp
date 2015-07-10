@@ -1,20 +1,21 @@
 #include "BaseAuRegClass.h"
 #include <iostream>
-int main() {
+
+int main() 
+{
 	std::cout << "namespace Y, class N" << std::endl;
 	char YorN;
 	std::cin >> YorN;
 
 	std::cout << "header file name :" << std::endl;
-	std::string f;
-	std::cin >> f;
+	std::string HeaderFile;
+	std::cin >> HeaderFile;
 
 	std::cout << "outputFile name" << std::endl;
-	std::string b;
-	std::cin >> b;
+	std::string OutFile;
+	std::cin >> OutFile;
 
-	AutoRegister a(f, b);
-	a.CreateFunctionCalls();
+	AutoRegister a(HeaderFile, OutFile);
 
 	if(YorN != 'Y'){
 		std::cout << "Namespace output filename" << std::endl;
