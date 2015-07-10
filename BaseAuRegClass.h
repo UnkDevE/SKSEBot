@@ -33,13 +33,12 @@ class AutoRegister {
 public:
 	//Truncates outputfile be careful
 	AutoRegister(std::string HeaderFilename, std::string OutputFilename){
-		HeaderFile.open(HeaderFilename,std::ios::in);
 		OutputFile.open(OutputFilename,std::ios::out|std::ios::trunc);
-		ReadClass();
+		CreateFunctionCalls(OutputFilename)
 	}
-
+	
 	//Creates the functions
-	bool CreateFunctionCalls();
+	bool CreateFunctionCalls(std::string HeaderFilename);
 	
 	//creates function flags default nowait(kFunctionFlag_NoWait), does not need VMClassRegistry:: in functionflag
 	bool CreateSetFunctionFlags(std::string functionflag="kFunctionFlag_NoWait");
@@ -49,11 +48,12 @@ public:
 
 	~AutoRegister() {
 		OutputFile << "\n\treturn true; \n}";
-		HeaderFile.close();
 		OutputFile.close();
 	}
 
 private:
+	bool ReadClass(std::string HeaderFilename);
+	
 	struct Function {
 	public:
 		std::vector<std::string> Argumentypes;
@@ -68,10 +68,6 @@ private:
 			std::string classname;
 	};
 	RegisterDataHold RegData;
-	bool ReadClass();
-
+	
 	std::fstream OutputFile;
-	std::fstream HeaderFile;
-	std::fstream CppFile;
-	std::string TmpData;
 };
