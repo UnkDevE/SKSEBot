@@ -11,7 +11,7 @@ Licensed under the [MIT License].
 * [Boost](http://www.boost.org/)
 
 ## Cmake
-A cmake script is being built for this project but is not finished
+A cmake script has been finished but not fully tested please give feedback on the issues page
 
 
 [Homepage]: http://www.nexusmods.com/skyrim/mods/63795/
