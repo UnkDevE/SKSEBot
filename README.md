@@ -10,10 +10,9 @@ Licensed under the [MIT License].
 ## Prerequisites
 * [Boost](http://www.boost.org/)
 
-## Clone
-The following steps will ensure QixCommon is cloned properly.
-  1. `git clone --recursive https://github.com/EthanRiley/SKSEBot.git`
-  2. `cd QixCommon`
+## Cmake
+A cmake script is being built for this project but is not finished
+
 
 [Homepage]: http://www.nexusmods.com/skyrim/mods/63795/
 [Issues]: https://github.com/EthanRiley/SKSEBot/issues
