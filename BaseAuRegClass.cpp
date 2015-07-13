@@ -1,7 +1,10 @@
 #include "BaseAuRegClass.h"
+
 /*
 	The MIT License (MIT)
+
 	Copyright (c) 2015, Ethan Riley <https://github.com/EthanRiley>
+ 	Copyright (c) contributors
 	
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +24,6 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
 */
-
 
 std::vector<std::string> Regex_Search_Iterate(std::string input, boost::regex Regex) {
 	
